@@ -1,0 +1,11 @@
+.node {
+  width: 20px;
+  height: 20px;
+  outline: 1px solid black;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.node-wall {
+  background-color: black;
+}
