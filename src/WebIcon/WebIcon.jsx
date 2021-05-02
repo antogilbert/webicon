@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import Node from './Node/Node'
 
-import './WebDraw.css'
+import './WebIcon.css'
 
-export default class WebDraw extends Component {
+export default class WebIcon extends Component {
   constructor(props) {
     super(props);
     this.state = {

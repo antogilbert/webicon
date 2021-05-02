@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import WebDraw from './WebDraw/WebDraw'
+import WebIcon from './WebIcon/WebIcon'
 
 function App() {
   return (
     <div className="App">
-      <WebDraw></WebDraw>
+      <WebIcon></WebIcon>
     </div>
   );
 }
