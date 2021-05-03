@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Node from './Node/Node'
+import Preview from './Preview'
 
 import './WebIcon.css'
 
@@ -47,7 +48,7 @@ export default class WebIcon extends Component {
 
   render() {
     const {grid, isMousePressed, size} = this.state;
-    console.log(grid);
+
     document.documentElement.style.setProperty("--iconSize", size)
     document.documentElement.style.setProperty("--previewSize", `${size}px`)
 
@@ -77,19 +78,18 @@ export default class WebIcon extends Component {
             ></Node>);
           })}
       </div>
-      <div className='preview'>
-        <style>
-          width: `${size}px`
-          height: `${size}px`
-        </style>
-      </div>
+      <Preview
+        grid={grid}
+        size={size}
+      >
+      </Preview>
       </>
     );
   }
 }
 
 const createNode = (row, col) => {
-  return {row, col}
+  return {row, col, colour: '#ffffff'}
 }
 
 const getInitialGrid = (size) => {
