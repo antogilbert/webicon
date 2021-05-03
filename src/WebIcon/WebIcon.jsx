@@ -9,27 +9,34 @@ export default class WebIcon extends Component {
     this.state = {
       grid: [],
       isMousePressed: false,
+      size: 16,
+      colour: '#0000ff',
     };
   }
 
+
   clearBoard() {
-    const grid = getInitialGrid(16);
+    const grid = getInitialGrid(this.state.size);
     this.setState({grid});
+  }
+
+  saveImage() {
+  //  const img = new Image(this.state.size, this.state.size);
   }
 
   componentDidMount() {
-    const grid = getInitialGrid(16);
+    const grid = getInitialGrid(this.state.size);
     this.setState({grid});
   }
 
-  handleMouseDown(row, col, colour) {
-    const newGrid = newGridWithColour(this.state.grid, row, col, 1);
+  handleMouseDown(row, col) {
+    const newGrid = newGridWithColour(this.state.grid, row, col, this.state.colour);
     this.setState({grid: newGrid, isMousePressed: true})
   }
 
-  handleMouseEnter(row, col, colour) {
+  handleMouseEnter(row, col) {
     if (this.state.isMousePressed) {
-      const newGrid = newGridWithColour(this.state.grid, row, col, 1);
+      const newGrid = newGridWithColour(this.state.grid, row, col, this.state.colour);
       this.setState({grid: newGrid, isMousePressed: true})
     }
   }
@@ -39,66 +46,74 @@ export default class WebIcon extends Component {
   }
 
   render() {
-    const {grid, isMousePressed} = this.state;
+    const {grid, isMousePressed, size} = this.state;
     console.log(grid);
+    document.documentElement.style.setProperty("--iconSize", size)
+    document.documentElement.style.setProperty("--previewSize", `${size}px`)
 
     return (
       <>
       <button onClick={() => this.clearBoard()}>
         Clear
       </button>
-      <div className="grid">
-        {grid.map((row, rowId) => {
+      <button onClick={() => this.saveImage()}>
+        Save
+      </button>
+      <div
+        className="grid"
+        onMouseLeave={() => this.handleMouseUp()}>
+        {grid.map((node, nodeId) => {
+          const {row, col, colour} = node;
           return (
-            <div key={rowId}>
-              {row.map((node, nodeId) => {
-                const {row, col, colour} = node;
-                return (
-                  <Node
-                    key={nodeId}
-                    row={row}
-                    col={col}
-                    colour={colour}
-                    isMousePressed={isMousePressed}
-                    onMouseDown={(row, col) => this.handleMouseDown(row, col, colour)}
-                    onMouseEnter={(row, col) => this.handleMouseEnter(row, col, colour)}
-                    onMouseUp={() => this.handleMouseUp()}
-                  ></Node>);
-              })}
-            </div>
-          );
-        })}
+            <Node
+              key={nodeId}
+              row={row}
+              col={col}
+              colour={colour}
+              isMousePressed={isMousePressed}
+              onMouseDown={(row, col) => this.handleMouseDown(row, col)}
+              onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
+              onMouseUp={() => this.handleMouseUp()}
+            ></Node>);
+          })}
+      </div>
+      <div className='preview'>
+        <style>
+          width: `${size}px`
+          height: `${size}px`
+        </style>
       </div>
       </>
     );
   }
 }
 
-const createNode = (row, col, colour) => {
-  return {row, col, colour}
+const createNode = (row, col) => {
+  return {row, col}
 }
 
 const getInitialGrid = (size) => {
-  const grid = [];
+  const grid = new Array(size*size);
   for (let row = 0; row < size; row++) {
-    const currRow = [];
     for (let col = 0; col < size; col++) {
-      currRow.push(createNode(row, col, 0));
+      const id = row * size + col;
+      grid[id] = createNode(row, col);
     }
-    grid.push(currRow);
   }
 
   return grid;
 };
 
 const newGridWithColour = (grid, row, col, colour) => {
+  const size = Math.sqrt(grid.length);
+  const id = row * size + col
   const newGrid = grid.slice();
-  const node = newGrid[row][col];
+  const node = newGrid[id];
   const newNode = {
     ...node,
     colour: colour
   };
-  newGrid[row][col] = newNode;
+  newGrid[id] = newNode;
 
   return newGrid;
 }

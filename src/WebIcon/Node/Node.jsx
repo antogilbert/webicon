@@ -13,16 +13,16 @@ export default class Node extends Component {
       onMouseUp
     } = this.props;
 
-    const colourName = (colour === 1) ?  "node-wall" : "";
-
     return (
       <div
         id={`node-${row}-${col}`}
-        className={`node ${colourName}`}
+        className={`node`}
         colour={colour}
+        style={{background: colour}}
         onMouseDown={() => onMouseDown(row, col, colour)}
         onMouseEnter={() => onMouseEnter(row, col, colour)}
-        onMouseUp={() => onMouseUp()}></div>
+        onMouseUp={() => onMouseUp()}>
+      </div>
     );
   }
 }
