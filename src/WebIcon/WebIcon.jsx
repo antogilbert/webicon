@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Node from './Node/Node'
 import Preview from './Preview'
+import FileSaver from 'file-saver';
 
 import './WebIcon.css'
 
@@ -22,7 +23,8 @@ export default class WebIcon extends Component {
   }
 
   saveImage() {
-  //  const img = new Image(this.state.size, this.state.size);
+    const preview = document.getElementById('previewImg');
+    FileSaver.saveAs(preview.src, 'icon.png');
   }
 
   componentDidMount() {
