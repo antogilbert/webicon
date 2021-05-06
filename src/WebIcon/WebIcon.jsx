@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Node from './Node/Node'
+import Size from './Size/Size'
 import Preview from './Preview'
 import FileSaver from 'file-saver';
 
@@ -11,14 +12,34 @@ export default class WebIcon extends Component {
     this.state = {
       grid: [],
       isMousePressed: false,
-      size: 16,
       colour: '#0000ff',
+      size: [
+        {
+          id: 0,
+          title: '16 x 16',
+          selected: true,
+          value: 16,
+        },
+        {
+          id: 1,
+          title: '24 x 24',
+          selected: false,
+          value: 24,
+        },
+        {
+          id: 2,
+          title: '32 x 32',
+          selected: false,
+          value: 32,
+        },
+      ]
     };
   }
 
 
   clearBoard() {
-    const grid = getInitialGrid(this.state.size);
+    const gsize = this.state.size.filter(item => item.selected).map(obj => obj.value)[0];
+    const grid = getInitialGrid(gsize);
     this.setState({grid});
   }
 
@@ -28,7 +49,8 @@ export default class WebIcon extends Component {
   }
 
   componentDidMount() {
-    const grid = getInitialGrid(this.state.size);
+    const gsize = this.state.size.filter(item => item.selected).map(obj => obj.value)[0];
+    const grid = getInitialGrid(gsize);
     this.setState({grid});
   }
 
@@ -48,11 +70,23 @@ export default class WebIcon extends Component {
     this.setState({isMousePressed: false})
   }
 
-  render() {
-    const {grid, isMousePressed, size} = this.state;
+  setSize = (id) => {
+    this.state.size.forEach((item) => item.selected = false);
+    this.state.size[id].selected = true;
+    this.clearBoard();
+  }
 
-    document.documentElement.style.setProperty("--iconSize", size)
-    document.documentElement.style.setProperty("--previewSize", `${size}px`)
+  render() {
+    const selectedItem = this.state.size
+                             .filter(item => item.selected);
+
+    const gsize = selectedItem.map(item => item.value)[0];
+    const gtitle= selectedItem.map(item => item.title)[0];
+
+    const {grid, isMousePressed} = this.state;
+
+    document.documentElement.style.setProperty("--iconSize", gsize)
+    document.documentElement.style.setProperty("--previewSize", `${gsize}px`)
 
     return (
       <>
@@ -62,6 +96,10 @@ export default class WebIcon extends Component {
       <button onClick={() => this.saveImage()}>
         Save
       </button>
+      <Size 
+        title = {gtitle}
+        sizes = {this.state.size}
+        setSize = {this.setSize}/>
       <div
         className="grid"
         onMouseLeave={() => this.handleMouseUp()}>
@@ -82,9 +120,8 @@ export default class WebIcon extends Component {
       </div>
       <Preview
         grid={grid}
-        size={size}
-      >
-      </Preview>
+        gsize={gsize}
+      />
       </>
     );
   }

@@ -5,9 +5,9 @@ export default class Preview extends Component {
   render() {
     const {
       grid,
-      size} = this.props;
+      gsize} = this.props;
 
-    const img = new PNGIMage(size, size, 3);
+    const img = new PNGIMage(gsize, gsize, 3);
     for (let i = 0; i < grid.length; i++) {
       const row = grid[i].row;
       const col = grid[i].col;
