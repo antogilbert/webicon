@@ -99,50 +99,62 @@ export default class WebIcon extends Component {
 
     return (
       <>
-      <button onClick={() => this.clearBoard()}>
-        Clear
-      </button>
-      <button onClick={() => this.saveImage()}>
-        Save
-      </button>
-      <Size 
-        title = {gtitle}
-        sizes = {this.state.size}
-        setSize = {this.setSize}
-      />
-      <SketchPicker
-        color={this.state.color}
-        onChange={this.setColor}
-      />
-      <div
-        className="grid"
-        onMouseLeave={() => this.handleMouseUp()}>
-        {grid.map((node, nodeId) => {
-          const {row, col, color} = node;
-          return (
-            <Node
-              key={nodeId}
-              row={row}
-              col={col}
-              color={color}
-              isMousePressed={isMousePressed}
-              onMouseDown={(row, col) => this.handleMouseDown(row, col)}
-              onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
-              onMouseUp={() => this.handleMouseUp()}
-            ></Node>);
-          })}
+      <div className="row">
+        <div className="column left">
+          <div style={{padding: '10px'}}>
+            <button onClick={() => this.clearBoard()}>
+              Clear
+            </button>
+          </div>
+          <div style={{padding: '10px'}}>
+            <button onClick={() => this.saveImage()}>
+              Save
+            </button>
+          </div>
+          <Size 
+            title = {gtitle}
+            sizes = {this.state.size}
+            setSize = {this.setSize}
+          />
+          <div className="colorPicker">
+            <SketchPicker
+              color={this.state.color}
+              onChange={this.setColor}
+            />
+          </div>
+          <Preview
+            grid={grid}
+            gsize={gsize}
+          />
+        </div>
+        <div className="column right">
+          <div
+            className="grid"
+            onMouseLeave={() => this.handleMouseUp()}>
+            {grid.map((node, nodeId) => {
+              const {row, col, color} = node;
+              return (
+                <Node
+                  key={nodeId}
+                  row={row}
+                  col={col}
+                  color={color}
+                  isMousePressed={isMousePressed}
+                  onMouseDown={(row, col) => this.handleMouseDown(row, col)}
+                  onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
+                  onMouseUp={() => this.handleMouseUp()}
+                ></Node>);
+              })}
+          </div>
+        </div>
       </div>
-      <Preview
-        grid={grid}
-        gsize={gsize}
-      />
       </>
     );
   }
 }
 
 const createNode = (row, col) => {
-  return {row, col, color: {r: '255', g: '255', b: '255', a: '0'}}
+  return {row, col, color: {r: '255', g: '255', b: '255', a: '1'}}
 }
 
 const getInitialGrid = (size) => {

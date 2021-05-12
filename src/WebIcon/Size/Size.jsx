@@ -29,7 +29,8 @@ export default class Size extends Component {
     const {sizes} = this.props;
 
     return (
-      <div className="icon-size-wrapper">
+      <div style={{padding: '10px'}}
+        className="icon-size-wrapper">
         <button
           className="icon-size-header"
           onClick={this.toggleList}>

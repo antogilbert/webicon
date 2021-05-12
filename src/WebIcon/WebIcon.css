@@ -1,6 +1,27 @@
 :root {
   --iconSize: 16;
   --previewSize: 16px;
+  background: rgb(44, 62, 80);
+}
+
+.column {
+  float: left;
+}
+
+.left {
+  width: 220px;
+  display: table-column;
+  padding: 10px;
+}
+
+.right {
+  width: 500px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .grid {
@@ -18,7 +39,16 @@
   border-right: 1px solid black;
 }
 
+.colorPicker {
+  padding-top: 10px;
+}
+
 .preview {
+  padding: 10px;
+  color: white;
+}
+
+.previewImg {
   width: var(--previewSize);
   height: var(--previewSize);
   border: 1px solid black;

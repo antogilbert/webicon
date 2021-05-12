@@ -14,7 +14,7 @@ export default class Node extends Component {
     return (
       <div
         id={`node-${row}-${col}`}
-        className={`node`}
+        className="node"
         color={color}
         style={{background: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}}
         onMouseDown={() => onMouseDown(row, col, color)}

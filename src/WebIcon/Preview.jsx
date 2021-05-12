@@ -20,12 +20,19 @@ export default class Preview extends Component {
     const url = img.getDataURL();
 
     return (
-      <img
-        id='previewImg'
-        alt='previewImg'
-        className={`preview`}
-        src={url}>
-      </img>
+      <div className="preview">
+        <div>
+          Preview
+        </div>
+        <div>
+        <img
+          id='previewImg'
+          alt='previewImg'
+          className="previewImg"
+          src={url}>
+        </img>
+        </div>
+      </div>
     );
   }
 }
