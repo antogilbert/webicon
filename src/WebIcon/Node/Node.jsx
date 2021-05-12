@@ -1,13 +1,11 @@
 import React, {Component} from 'react'
 
-import './Node.css'
-
 export default class Node extends Component {
   render() {
     const {
       row,
       col,
-      colour,
+      color,
       onMouseDown,
       onMouseEnter,
       onMouseUp
@@ -17,10 +15,10 @@ export default class Node extends Component {
       <div
         id={`node-${row}-${col}`}
         className={`node`}
-        colour={colour}
-        style={{background: colour}}
-        onMouseDown={() => onMouseDown(row, col, colour)}
-        onMouseEnter={() => onMouseEnter(row, col, colour)}
+        color={color}
+        style={{background: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}}
+        onMouseDown={() => onMouseDown(row, col, color)}
+        onMouseEnter={() => onMouseEnter(row, col, color)}
         onMouseUp={() => onMouseUp()}>
       </div>
     );

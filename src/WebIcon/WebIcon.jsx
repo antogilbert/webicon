@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import Node from './Node/Node'
 import Size from './Size/Size'
 import Preview from './Preview'
-import FileSaver from 'file-saver';
+import FileSaver from 'file-saver'
+import {SketchPicker} from 'react-color'
 
 import './WebIcon.css'
 
@@ -12,7 +13,12 @@ export default class WebIcon extends Component {
     this.state = {
       grid: [],
       isMousePressed: false,
-      colour: '#0000ff',
+      color: {
+        r: '125',
+        g: '125',
+        b: '255',
+        a: '1'
+      },
       size: [
         {
           id: 0,
@@ -36,7 +42,6 @@ export default class WebIcon extends Component {
     };
   }
 
-
   clearBoard() {
     const gsize = this.state.size.filter(item => item.selected).map(obj => obj.value)[0];
     const grid = getInitialGrid(gsize);
@@ -55,19 +60,23 @@ export default class WebIcon extends Component {
   }
 
   handleMouseDown(row, col) {
-    const newGrid = newGridWithColour(this.state.grid, row, col, this.state.colour);
+    const newGrid = newGridWithcolor(this.state.grid, row, col, this.state.color);
     this.setState({grid: newGrid, isMousePressed: true})
   }
 
   handleMouseEnter(row, col) {
     if (this.state.isMousePressed) {
-      const newGrid = newGridWithColour(this.state.grid, row, col, this.state.colour);
+      const newGrid = newGridWithcolor(this.state.grid, row, col, this.state.color);
       this.setState({grid: newGrid, isMousePressed: true})
     }
   }
 
   handleMouseUp() {
     this.setState({isMousePressed: false})
+  }
+
+  setColor = (color) => {
+    this.setState({color: color.rgb})
   }
 
   setSize = (id) => {
@@ -99,18 +108,23 @@ export default class WebIcon extends Component {
       <Size 
         title = {gtitle}
         sizes = {this.state.size}
-        setSize = {this.setSize}/>
+        setSize = {this.setSize}
+      />
+      <SketchPicker
+        color={this.state.color}
+        onChange={this.setColor}
+      />
       <div
         className="grid"
         onMouseLeave={() => this.handleMouseUp()}>
         {grid.map((node, nodeId) => {
-          const {row, col, colour} = node;
+          const {row, col, color} = node;
           return (
             <Node
               key={nodeId}
               row={row}
               col={col}
-              colour={colour}
+              color={color}
               isMousePressed={isMousePressed}
               onMouseDown={(row, col) => this.handleMouseDown(row, col)}
               onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
@@ -128,7 +142,7 @@ export default class WebIcon extends Component {
 }
 
 const createNode = (row, col) => {
-  return {row, col, colour: '#ffffff'}
+  return {row, col, color: {r: '255', g: '255', b: '255', a: '0'}}
 }
 
 const getInitialGrid = (size) => {
@@ -143,14 +157,14 @@ const getInitialGrid = (size) => {
   return grid;
 };
 
-const newGridWithColour = (grid, row, col, colour) => {
+const newGridWithcolor = (grid, row, col, color) => {
   const size = Math.sqrt(grid.length);
   const id = row * size + col
   const newGrid = grid.slice();
   const node = newGrid[id];
   const newNode = {
     ...node,
-    colour: colour
+    color: color
   };
   newGrid[id] = newNode;
 
