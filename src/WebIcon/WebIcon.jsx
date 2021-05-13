@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+
+import Button from './Button/Button'
 import Node from './Node/Node'
 import Size from './Size/Size'
 import Preview from './Preview'
@@ -42,13 +44,13 @@ export default class WebIcon extends Component {
     };
   }
 
-  clearBoard() {
+  clearBoard = () => {
     const gsize = this.state.size.filter(item => item.selected).map(obj => obj.value)[0];
     const grid = getInitialGrid(gsize);
     this.setState({grid});
   }
 
-  saveImage() {
+  saveImage = () => {
     const preview = document.getElementById('previewImg');
     FileSaver.saveAs(preview.src, 'icon.png');
   }
@@ -101,21 +103,25 @@ export default class WebIcon extends Component {
       <>
       <div className="row">
         <div className="column left">
-          <div style={{padding: '10px'}}>
-            <button onClick={() => this.clearBoard()}>
-              Clear
-            </button>
+          <div style={{paddingTop: '10px'}}>
+          <Button
+            title="Clear"
+            onClick={this.clearBoard}
+          /> 
           </div>
-          <div style={{padding: '10px'}}>
-            <button onClick={() => this.saveImage()}>
-              Save
-            </button>
+          <div style={{paddingTop: '10px'}}>
+          <Button
+            title="Save"
+            onClick={this.saveImage}
+          />
           </div>
+          <div style={{paddingTop: '10px'}}>
           <Size 
             title = {gtitle}
             sizes = {this.state.size}
             setSize = {this.setSize}
           />
+          </div>
           <div className="colorPicker">
             <SketchPicker
               color={this.state.color}

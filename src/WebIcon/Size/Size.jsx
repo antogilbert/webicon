@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 
+import Button from '../Button/Button'
 import './Size.css'
 
-export default class Size extends Component {
+export default class Size extends Button {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,10 +30,10 @@ export default class Size extends Component {
     const {sizes} = this.props;
 
     return (
-      <div style={{padding: '10px'}}
+      <div
         className="icon-size-wrapper">
         <button
-          className="icon-size-header"
+          className="button"
           onClick={this.toggleList}>
           <div className="icon-size-header-title"> {headerTitle}
           </div>
@@ -41,9 +42,9 @@ export default class Size extends Component {
         {isListOpen && (
           <div role="list" className="icon-size-list">
           {
-            sizes.map((item) => (
+            sizes.filter(item => !item.selected).map((item) => (
               <button
-                className="icon-size-list-item"
+                className="button option"
                 key={item.id}
                 onClick={() => this.selectItem(item)}>
               {item.title}
